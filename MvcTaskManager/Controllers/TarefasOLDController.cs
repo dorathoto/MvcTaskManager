@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,12 +12,14 @@ using MvcTaskManager.Models;
 
 namespace MvcTaskManager.Controllers
 {
-    public class TarefasController : Controller
-    {
-        private readonly AppDbContext _context;
-        private readonly UserManager<Usuario> _userManager;
+    [Authorize]
 
-        public TarefasController(AppDbContext context, UserManager<Usuario> userManager)
+    public class TarefasOLDController : Controller
+    {
+        private readonly UserManager<Usuario> _userManager;
+        private readonly AppDbContext _context;
+
+        public TarefasOLDController(AppDbContext context,UserManager<Usuario> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -51,7 +54,7 @@ namespace MvcTaskManager.Controllers
         // GET: Tarefas/Create
         public IActionResult Create()
         {
-            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "UserName");
+            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Id");
             return View();
         }
 
@@ -69,7 +72,7 @@ namespace MvcTaskManager.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", tarefa.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Id", tarefa.UsuarioId);
             return View(tarefa);
         }
 
@@ -86,7 +89,7 @@ namespace MvcTaskManager.Controllers
             {
                 return NotFound();
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", tarefa.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Id", tarefa.UsuarioId);
             return View(tarefa);
         }
 
@@ -122,7 +125,7 @@ namespace MvcTaskManager.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", tarefa.UsuarioId);
+            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Id", tarefa.UsuarioId);
             return View(tarefa);
         }
 
@@ -159,14 +162,14 @@ namespace MvcTaskManager.Controllers
             {
                 _context.Tarefas.Remove(tarefa);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TarefaExists(Guid id)
         {
-          return _context.Tarefas.Any(e => e.TarefaId == id);
+            return _context.Tarefas.Any(e => e.TarefaId == id);
         }
     }
 }

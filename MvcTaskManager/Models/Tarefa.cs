@@ -1,12 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace MvcTaskManager.Entities
+namespace MvcTaskManager.Models
 {
     public class Tarefa
     {
         public Guid TarefaId { get; set; }
 
-        public string? Descricao { get; set; }
+        [MaxLength(2000)]//faltou isso! otimizando
+        public string Descricao { get; set; }
 
         public DateTime? DataRealizacaoTarefa { get; set; }
 

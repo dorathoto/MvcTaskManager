@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MvcTaskManager.Context;
-using MvcTaskManager.Entities;
 using MvcTaskManager.Infra;
 using MvcTaskManager.Models;
 

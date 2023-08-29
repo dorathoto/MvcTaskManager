@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MvcTaskManager.Context;
+using MvcTaskManager.Entities;
+using MvcTaskManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +13,14 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>();
+//builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+//.AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddIdentity<Usuario, Funcao>(options =>
+{
+
+}).AddEntityFrameworkStores<AppDbContext>()
+               .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

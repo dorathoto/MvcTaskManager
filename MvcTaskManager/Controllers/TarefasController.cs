@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,13 @@ namespace MvcTaskManager.Controllers
 
     public class TarefasController : Controller
     {
+        private readonly UserManager<Usuario> _userManager;
         private readonly AppDbContext _context;
 
-        public TarefasController(AppDbContext context)
+        public TarefasController(AppDbContext context,UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Tarefas
@@ -159,14 +162,14 @@ namespace MvcTaskManager.Controllers
             {
                 _context.Tarefas.Remove(tarefa);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TarefaExists(Guid id)
         {
-          return _context.Tarefas.Any(e => e.TarefaId == id);
+            return _context.Tarefas.Any(e => e.TarefaId == id);
         }
     }
 }

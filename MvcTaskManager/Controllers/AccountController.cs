@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MvcTaskManager.Entities;
 using MvcTaskManager.Models;
 
 namespace MvcTaskManager.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<Usuario> userManager;
+        private readonly SignInManager<Usuario> signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -26,7 +27,7 @@ namespace MvcTaskManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser
+                var user = new Usuario 
                 {
                     UserName = model.Email,
                     Email = model.Email
@@ -87,4 +88,3 @@ namespace MvcTaskManager.Controllers
         }
     }
 }
-

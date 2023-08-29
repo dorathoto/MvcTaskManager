@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -67,7 +68,11 @@ namespace MvcTaskManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                var usuario = await _userManager.GetUserAsync(this.User);
+                var UserGuid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 tarefa.TarefaId = Guid.NewGuid();
+                tarefa.UsuarioId = usuario.Id;
                 _context.Add(tarefa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

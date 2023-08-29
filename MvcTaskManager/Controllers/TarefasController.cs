@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -55,16 +56,19 @@ namespace MvcTaskManager.Controllers
             return View();
         }
 
-        // POST: Tarefas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TarefaId,Descricao,DataRealizacaoTarefa,UsuarioId")] Tarefa tarefa)
+        public async Task<IActionResult> Create(Tarefa tarefa)
         {
             if (ModelState.IsValid)
             {
+               //duas formas de pegar o usuario logado (primeiro pega o user inteiro) o segundo só o ID
+                var usuario = await _userManager.GetUserAsync(this.User);
+                var UserGuid = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
                 tarefa.TarefaId = Guid.NewGuid();
+                tarefa.UsuarioId = Guid.Parse(UserGuid);
                 _context.Add(tarefa);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

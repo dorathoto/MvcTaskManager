@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MvcTaskManager.Models
+namespace MvcTaskManager.ViewModels
 {
     public class RegisterViewModel
     {

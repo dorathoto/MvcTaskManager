@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MvcTaskManager.Entities;
-using MvcTaskManager.Models;
+using MvcTaskManager.ViewModels;
 
 namespace MvcTaskManager.Controllers
 {

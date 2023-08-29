@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcTaskManager.Models;
+using MvcTaskManager.ViewModels;
 using System.Diagnostics;
 
 namespace MvcTaskManager.Controllers

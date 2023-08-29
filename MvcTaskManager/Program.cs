@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MvcTaskManager.Context;
 using MvcTaskManager.Entities;
+using MvcTaskManager.Infra;
 using MvcTaskManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,11 +17,13 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 //.AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddIdentity<Usuario, Funcao>(options =>
-{
+//builder.Services.AddIdentity<Usuario, Funcao>(options =>{}).AddEntityFrameworkStores<AppDbContext>()
+//               .AddDefaultTokenProviders();
 
-}).AddEntityFrameworkStores<AppDbContext>()
-               .AddDefaultTokenProviders();
+builder.Services.AddIdentity<Usuario, Funcao>()
+             .AddEntityFrameworkStores<AppDbContext>()
+             .AddErrorDescriber<PortugueseIdentityErrorDescriber>()
+             .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
